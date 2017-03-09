@@ -11,7 +11,7 @@ uint64_t DoubleBasePalindromes(int max) {
     uint64_t ret = 0;
     for (int i = 0; i < max; i++) {
         std::string iStr = std::to_string(i);
-        if (is_palindrome(iStr) && is_palindrome(DecimalToBinaryString(i)))
+        if (isPalindrome(iStr) && isPalindrome(DecimalToBinaryString(i)))
             ret += i;
     }
     return ret;
@@ -26,14 +26,14 @@ std::string DecimalToBinaryString(int number) {
         number /= 2;
     }
     bin[i] = '\0';
-    char ret[i];
+    char binStr[i];
     for (int j = 0; j < i; j++)
-        ret[j] = (char) (bin[i - j - 1] + 48);
-    ret[i] = '\0';
-    return ret;
+        binStr[j] = (char) (bin[i - j - 1] + 48);
+    binStr[i] = '\0';
+    return std::string(binStr);
 }
 
-bool is_palindrome(std::string str) {
+bool isPalindrome(std::string str) {
     const char *characters = str.c_str();
     size_t len = str.size();
     char reversed[len];
