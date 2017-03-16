@@ -34,9 +34,9 @@ int main(int argc, char const *argv[]) {
     while (inputFile >> word) {
         cout << word;
         if (option == 0)
-            outputFile << PolybiusDecrypt(word);
+            outputFile << PolybiusDecrypt(word) << " ";
         else
-            outputFile << PolybiusCrypt(word);
+            outputFile << PolybiusCrypt(word) << " ";
     }
     outputFile.close();
     inputFile.close();
