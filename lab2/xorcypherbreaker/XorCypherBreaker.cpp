@@ -9,13 +9,13 @@ using std::find;
 using std::vector;
 using std::string;
 
-string Decrypt(const vector<char> &cryptogram, string key) {
+string Decrypt(const vector<char> &cryptogram, string key, int key_length) {
     int i = 0;
     string decryptedStr;
     for (char c : cryptogram) {
         decryptedStr += c ^ (int) key[i];
         i++;
-        i = i % 3;
+        i = i % key_length;
     }
     return decryptedStr;
 }
@@ -34,7 +34,6 @@ string XorCypherBreaker(const vector<char> &cryptogram,
                         const vector<string> &dictionary) {
     int bestCase = 0;
     string bestKey = "";
-    //string key = "aaa";
     string key;
     for (int i = 0; i < key_length; i++)
         key += "a";
@@ -42,7 +41,7 @@ string XorCypherBreaker(const vector<char> &cryptogram,
     for (int i = 0; i < key_length; i++)
         endKey += "z";
     while (key != endKey) {
-        string decrypted = Decrypt(cryptogram, key);
+        string decrypted = Decrypt(cryptogram, key, key_length);
         int found = DictionaryTest(decrypted, dictionary);
         if (found > bestCase) {
             bestCase = found;
