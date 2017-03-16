@@ -34,8 +34,14 @@ string XorCypherBreaker(const vector<char> &cryptogram,
                         const vector<string> &dictionary) {
     int bestCase = 0;
     string bestKey = "";
-    string key = "aaa";
-    while (key != "zzz") {
+    //string key = "aaa";
+    string key;
+    for (int i = 0; i < key_length; i++)
+        key += "a";
+    string endKey;
+    for (int i = 0; i < key_length; i++)
+        endKey += "z";
+    while (key != endKey) {
         string decrypted = Decrypt(cryptogram, key);
         int found = DictionaryTest(decrypted, dictionary);
         if (found > bestCase) {
