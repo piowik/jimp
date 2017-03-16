@@ -7,7 +7,7 @@ set(SOURCE_FILES GreatestProduct.cpp)
 add_library(libgreatestproduct STATIC ${SOURCE_FILES})
 target_include_directories(libgreatestproduct PUBLIC .)
 
-add_executable(greatestproduct ${SOURCE_FILES} main.cpp ../polybius/Polybius.cpp ../polybius/Polybius.h)
+add_executable(greatestproduct ${SOURCE_FILES} main.cpp)
 
 target_link_libraries(greatestproduct libgreatestproduct)
 
