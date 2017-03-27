@@ -1,13 +1,13 @@
 
-project(netsjson)
+project(simplejson)
 
-set(HEDEAR_FILES Netsjson.h)
-set(SOURCE_FILES Netsjson.cpp)
+set(HEDEAR_FILES SimpleJson.h)
+set(SOURCE_FILES SimpleJson.cpp)
 
-add_library(libnetsjson STATIC ${SOURCE_FILES})
-target_include_directories(libnetsjson PUBLIC .)
+add_library(libsimplejson STATIC ${SOURCE_FILES})
+target_include_directories(libsimplejson PUBLIC .)
 
-add_executable(netsjson ${SOURCE_FILES} main.cpp)
+add_executable(simplejson ${SOURCE_FILES} main.cpp)
 
-target_link_libraries(netsjson libnetsjson)
+target_link_libraries(simplejson libsimplejson)
 
