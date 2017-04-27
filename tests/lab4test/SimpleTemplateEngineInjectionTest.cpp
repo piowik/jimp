@@ -20,6 +20,12 @@ class TemplateEngineInjectionTests : public ::testing::TestWithParam<TestParam>,
 };
 
 TEST_F(TemplateEngineInjectionTests, Injection) {
+
+class UrlTests : public ::testing::TestWithParam<TestParam>, MemLeakTest {
+};
+
+TEST_F(UrlTests, Injection) {
+
   const auto view = make_unique<View>("Test {{test}} {{injected}}");
   EXPECT_EQ("Test {{injected}} {{test}}", view->Render({{"test", "{{injected}}"}, {"injected", "{{test}}"}}));
 }

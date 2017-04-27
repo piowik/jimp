@@ -3,7 +3,9 @@
 //
 
 #include <gtest/gtest.h>
+
 #include <unordered_map>
+
 #include <memory>
 #include <MemLeakTest.h>
 #include <StringUtility.h>
@@ -20,6 +22,16 @@ using TestParam = std::pair<TestArgument, TestExpected>;
 class TemplateEngineTests : public ::testing::TestWithParam<TestParam>, MemLeakTest {};
 
 TEST_P(TemplateEngineTests, DefineViewClassWithRenderMethod) {
+
+using TestArgument = std::pair<std::string, std::map<std::string, std::string>>;
+using TestExpected = std::string;
+using TestParam = std::pair<TestArgument, TestExpected>;
+
+class UrlTests : public ::testing::TestWithParam<TestParam>, MemLeakTest {
+};
+
+TEST_P(UrlTests, DefineViewClassWithRenderMethod) {
+
   auto param = GetParam();
   const TestArgument &arg = param.first;
   const auto &mapping = arg.second;
@@ -30,6 +42,7 @@ TEST_P(TemplateEngineTests, DefineViewClassWithRenderMethod) {
 }
 
 std::vector<TestParam> templateEngineTestData
+std::vector<TestParam> urlsTestData
     {{{"Hello {{name}}! How are you today? My name is {{program}}!",
        {{"name", "Zbigniew"}, {"program", "Borg"}}}, "Hello Zbigniew! How are you today? My name is Borg!"},
      {{"Person:\n\tName: {{name}}\n\tSurname: {{surname}}\n\tAge: {{age}}\n",
@@ -45,6 +58,11 @@ INSTANTIATE_TEST_CASE_P(TemplateEngineTestsFixture,
                         ::testing::ValuesIn(templateEngineTestData));
 
 TEST_F(TemplateEngineTests, ViewHasToBeImmutable) {
+INSTANTIATE_TEST_CASE_P(UrlTestsFixture,
+                        UrlTests,
+                        ::testing::ValuesIn(urlsTestData));
+
+TEST_F(UrlTests, ViewHasToBeImmutable) {
   const auto view = make_unique<View>("Test {{test}}");
   EXPECT_EQ("Test 56$", view->Render({{"test", "56$"}}));
   EXPECT_EQ("Test %%", view->Render({{"test", "%%"}}));
