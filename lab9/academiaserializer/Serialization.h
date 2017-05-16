@@ -9,6 +9,7 @@
 #include <sstream>
 #include <vector>
 #include <functional>
+#include <experimental/optional>
 
 namespace academia {
     class Serializer;
@@ -29,6 +30,7 @@ namespace academia {
 
         Room() { };
         Room(int id, std::string name, Type type);
+        int Id() { return id_; };
         void Serialize(Serializer* serializer) const override ;
         std::string TypeToString(Room::Type type) const;
 
@@ -42,16 +44,14 @@ namespace academia {
     class Building:public Serializable {
     public:
         Building() { };
-        Building(int id, const std::string &name,std::vector<std::reference_wrapper<const Serializable>> rooms);
+        Building(int id, const std::string &name, const std::vector<Room> &rooms);
         void Serialize(Serializer* serializer) const override ;
-
-        int GetId() { return id_; }
-        std::string GetName() { return name_; }
+        int Id() const { return id_; }
 
     private:
         int id_;
         std::string name_;
-        std::vector<std::reference_wrapper<const Serializable>> rooms_;
+        std::vector<Room> rooms_;
     };
 
 
@@ -101,6 +101,17 @@ namespace academia {
 
     private:
         bool needOpen = false;
+    };
+    class BuildingRepository {
+    public:
+        BuildingRepository() { };
+        BuildingRepository(const std::initializer_list<Building> buildings);
+        void StoreAll(Serializer *serial) const;
+        void Add(const Building &building);
+        std::experimental::optional<Building> operator[](int id) const;
+
+    private:
+        std::vector<Building> buildings_;
     };
 }
 
